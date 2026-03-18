@@ -6,7 +6,6 @@
 #include "structs.h"
 #include "io.h"
 
-Person* parse_input(char* ctx);
-void* parse_line();
+VectorPerson* parse_line(char* delt);
 
 #endif

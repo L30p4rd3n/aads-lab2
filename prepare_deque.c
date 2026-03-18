@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "ioworks.h"
 #include "structs.h"
 #include "deque.h"
+#include "ioworks.h"
+
+#define DELT " \t"
 
 int peopleComparator(Person* person_1, Person* person_2){
     return person_1 -> ta - person_2 -> ta;
@@ -13,12 +15,15 @@ VectorPerson* sort_people(VectorPerson* people){
     return people;
 }
 
-Deque* sorted_to_deque(Deque* deque, VectorPerson* people, Types type){
+Deque* get_deque(Deque* deque){
+
+    VectorPerson* people = parse_line(DELT);
+    people = sort_people(people);
     for(size_t i = 0; i < people -> count; i++){
         if(people -> people[i].priority){
-            push_front(deque, type, &(people -> people[i]));
+            push_front(deque, &(people -> people[i]));
         }else{
-            push_back(deque, type, &(people -> people[i]));
+            push_back(deque, &(people -> people[i]));
         }
     }return deque;
 }

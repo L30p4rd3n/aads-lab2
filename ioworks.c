@@ -48,14 +48,24 @@ Person* parse_input(char* ctx, char* delt){
     return person;
 }
 
-VectorPerson* parse_line(VectorPerson* people, char* delt){ // [de]que pro
+VectorPerson* parse_line(char* delt){ // [de]que pro
+    VectorPerson* people = malloc(sizeof(VectorPerson));
+    people -> count = 0;
+    people -> size = 0;
+    people -> people = malloc(people -> size * sizeof(Person));
+
     char* line;
     int err = input(line, STRING);
+    printf("%s\n", line);
+    if(err == -1){
+        free(people -> people);
+        return 0;
+    }
 
     char* working_str_set = strdup(line);
     char* word = strtok(working_str_set, delt);
     while(word != nil){
-        Person* person = parse_input(word, delt); // add __compar_fn_t for qsort
+        Person* person = parse_input(word, "/"); // add __compar_fn_t for qsort
         if(people -> count + 1 > people -> size){
             people = realloc(people, (people -> size + 1) * sizeof(Person));
             people -> size++;

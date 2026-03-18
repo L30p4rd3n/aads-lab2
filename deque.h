@@ -1,4 +1,4 @@
-#ifndef DEUQE
+#ifndef DEQUE
 #define DEQUE
 #include "structs.h"
 
@@ -9,14 +9,16 @@ typedef struct Deque{
 
     long size; // size of list or vectorqet
     long count; // size of list or size of used data(in vector); <= size
+    Types type;
 }Deque;
 
+//deque creation
+Deque* new_deque(Types type);
 
-Deque* push_front_vector(Deque* deque, Person* new);
-Deque* push_front_list(Deque* deque, Person* new);
-Deque* push_front(Deque* deque, Types dequetype, Person* person); // just return the copy
-Deque* push_back(Deque* deque, Types dequetype, Person* person); // just return the copy
-Person* pop_front(Deque** deque, Types dequetype); // modify the structure
-Person* pop_back(Deque** deque, Types dequetype); // modify the structure
+//deque I/O
+Deque* push_front(Deque* deque, Person* person); // just return the copy
+Deque* push_back(Deque* deque, Person* person); // just return the copy
+Person* pop_front(Deque* deque); // modify the structure
+Person* pop_back(Deque* deque); // modify the structure
 
 #endif

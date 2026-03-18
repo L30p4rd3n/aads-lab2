@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "structs.h"
+#include <string.h>
 #include "io.h"
 
 #define FIXSIZE 100
@@ -19,7 +19,7 @@ char* mereadline(const char* prompt){
     int ws_flag = 0;
     int stder = 0;
     while((stder = scanf("%99[^\n]", temp_string)) == 1){ 
-        for(unsigned long i = 0; i < mestrlen(temp_string); i++){
+        for(unsigned long i = 0; i < strlen(temp_string); i++){
             if(temp_string[i] == ' '){
                 if(!ws_flag && position > 0){
                     if(position + 1 >= size){
@@ -49,7 +49,7 @@ char* mereadline(const char* prompt){
                 ws_flag = 0;
             }
         }
-        if (mestrlen(temp_string) < 99){
+        if (strlen(temp_string) < 99){
                 break;
         }
     }
@@ -119,7 +119,7 @@ int input(void* to, inTypes type){
             }case STRING:{
                 char* input = mereadline("");
                 if(input != NULL){
-                    *(char*)to = input;
+                    *(char*)to = input; // bug
                     return 0;
                 }return -1; // either a strung or EOF, no third
             }

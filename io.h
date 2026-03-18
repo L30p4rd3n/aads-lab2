@@ -1,7 +1,6 @@
 #ifndef INPUT
 #define INPUT
 #include <stdio.h>
-#include "structs.h"
 
 typedef enum inTypes {
     INT,

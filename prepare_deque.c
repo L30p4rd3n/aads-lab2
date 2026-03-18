@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "ioworks.h"
 #include "structs.h"
+#include "deque.h"
 
 int peopleComparator(Person* person_1, Person* person_2){
     return person_1 -> ta - person_2 -> ta;

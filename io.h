@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "structs.h"
 
-typedef enum Types {
+typedef enum inTypes {
     INT,
     FLOAT,
     LONG,
@@ -11,7 +11,7 @@ typedef enum Types {
     CHAR,
     STRING,
     SIZE_T
-}Types;
-int input(void* ptr, Types types);
+}inTypes;
+int input(void* ptr, inTypes types);
 
 #endif

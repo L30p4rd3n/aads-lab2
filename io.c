@@ -66,7 +66,7 @@ char* mereadline(const char* prompt){
     return string;
 }
 
-int input(void* to, Types type){
+int input(void* to, inTypes type){
     int x = -2;
     char c;
     while(x != 0){

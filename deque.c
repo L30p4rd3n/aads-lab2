@@ -1,43 +1,99 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "structs.h"
-#include "ioworks.h"
+//#include "ioworks.h"
+#include "deque.h"
 
 int capacitycheck(Deque* deque){
-    return(deque -> head == deque -> tail) + (deque -> count == deque -> size); // dolbanet? ne doljno
+    if(deque -> head == deque -> tail){
+        if(deque -> count == deque -> size){
+            return 2;
+        }return 0;
+    }return 1;
 }
 
-// дек - надстройка над void* people - вектором или списком
-Deque* push_front(Deque* deque, Types dequetype, Person* new, void* people){ 
-    switch(dequetype){
-        case VECTOR:{ // so void* is VectorPeople*[0]
-            switch(capacitycheck(deque)){
-                case 0:{
-                    *(deque -> head) = *new;
-                    deque -> head = &people[(deque -> head - (VectorPerson*)people - 1) % deque -> size];
-                    deque -> count++;
-                    break;
-                }
-                case 1:{
-                    *(deque -> head) = *new;
-                    deque -> head = &people[(deque -> head - (VectorPerson*)people - 1) % deque -> size];
-                    deque -> tail = &people[(deque -> tail - (VectorPerson*)people + 1) % deque -> size];
-                    deque -> count++;
-                    break;
-                }case 2:{
-                    // invoke some sort of message (deque is full)
-                    break;
-                }
-            }
+Deque* push_front_vector(Deque* deque, Person* new){ // data is VectorPerson*
+    switch(capacitycheck(deque)){
+        case 0:{
+            *(Person*)deque -> head = *new;
+
+            deque -> head = &((Person*)deque -> data)[((Person*)deque -> head - 
+                (Person*)deque -> data - 1) % deque -> size];
+
+            deque -> tail = &((Person*)deque -> data)[((Person*)deque -> tail -
+                 (Person*)deque -> data + 1) % deque -> size];
+
+            deque -> count++;
+            break;
+        }case 1:{
+            *(Person*)deque -> head = *new;
+            deque -> head = &((Person*)deque -> data)[((Person*)deque -> head - 
+                (Person*)deque -> data - 1) % deque -> size];
+
+            deque -> count++; 
+            break;    
+        }case 2:{
             break;
         }
-        case LIST: { // so void* is ListPeople*, start* of it
-            break; // pass for now
-        }
+    }return deque;
+}
 
+Deque* push_front_list(Deque* deque, Person* new){
+    
+    ListPerson* newNode = malloc(sizeof(ListPerson));
+    newNode -> self = new;
+    newNode -> next = ((ListPerson*)deque -> data) -> next;
+
+    ((ListPerson*)deque -> data) -> next = newNode;
+    deque -> head = newNode;
+    if(deque -> count == 0){
+        ((ListPerson*)deque -> tail) -> next = newNode;
     }
+    deque -> count++;
+
     return deque;
 }
-Deque* push_back(Deque* deque, Types dequetype, Person* person){
 
+Deque* push_back_vector(Deque* deque, Person* new){
+    switch(capacitycheck(deque)){
+        case 0:{
+            *(Person*)deque -> tail = *new;
+
+            deque -> head = &((Person*)deque -> data)[((Person*)deque -> head - 
+                (Person*)deque -> data - 1) % deque -> size];
+
+            deque -> tail = &((Person*)deque -> data)[((Person*)deque -> tail -
+                 (Person*)deque -> data + 1) % deque -> size];
+
+            deque -> count++;
+            break;
+        }case 1:{
+            *(Person*)deque -> tail = *new;
+            deque -> tail = &((Person*)deque -> data)[((Person*)deque -> tail - 
+                (Person*)deque -> data + 1) % deque -> size];
+
+            deque -> count++; 
+            break;    
+        }case 2:{
+            break;
+        }
+    }return deque;
 }
+
+Deque* push_back_list(Deque* deque, Person* new){
+    
+    ListPerson* newNode = malloc(sizeof(ListPerson));
+    newNode -> self = new;
+    newNode -> next = ((ListPerson*)deque -> data) -> next;
+
+    ((ListPerson*)deque -> tail) -> next = newNode;
+    deque -> tail = newNode;
+    if(deque -> count == 0){
+        ((ListPerson*)deque -> data) -> next = newNode;
+        ((ListPerson*)deque -> head) -> next = newNode;
+    }
+    deque -> count++;
+
+    return deque;
+}
+

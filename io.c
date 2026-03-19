@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 #include "io.h"
 
 #define FIXSIZE 100
@@ -119,7 +121,7 @@ int input(void* to, inTypes type){
             }case STRING:{
                 char* input = mereadline("");
                 if(input != NULL){
-                    *(char*)to = input; // bug
+                    *(char**)to = input;
                     return 0;
                 }return -1; // either a strung or EOF, no third
             }

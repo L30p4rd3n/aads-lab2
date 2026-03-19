@@ -15,8 +15,13 @@ int main(){
 
     Deque* deque = new_deque(type);
     while(1){
-        deque = get_deque(deque);
-        simulate_clinic(deque);
+        Deque* temp = get_deque(deque);
+        if(temp != NULL){
+            deque = temp;
+            simulate_clinic(deque);
+        }else{
+            break;
+        }
         //probably free some leftovers
     }
     free(deque -> data);

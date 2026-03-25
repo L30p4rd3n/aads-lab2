@@ -92,21 +92,18 @@ int capacitycheck(Deque* deque){
 Deque* push_front_vector(Deque* deque, Person* new){ // data is VectorPerson*
     switch(capacitycheck(deque)){
         case 0:{
-            *(Person*)deque -> head = *new;
-
             deque -> head = &((Person*)deque -> data)[((Person*)deque -> head - 
                 (Person*)deque -> data - 1) % deque -> size];
-
-            deque -> tail = &((Person*)deque -> data)[((Person*)deque -> tail -
-                 (Person*)deque -> data + 1) % deque -> size];
-
+            *(Person*)deque -> head = *new;
+            deque -> tail = &((Person*)deque -> data)[1 % deque -> size];
             deque -> count++;
             break;
         }case 1:{
-            *(Person*)deque -> head = *new;
+            printf("wtf lol %p,  %p\n", deque -> data, &((Person*)deque -> data)[((Person*)deque -> head - 
+                (Person*)deque -> data - 1) % deque -> size]); 
             deque -> head = &((Person*)deque -> data)[((Person*)deque -> head - 
                 (Person*)deque -> data - 1) % deque -> size];
-
+            *(Person*)deque -> head = *new;
             deque -> count++; 
             break;    
         }case 2:{
@@ -136,12 +133,9 @@ Deque* push_back_vector(Deque* deque, Person* new){
         case 0:{
             *(Person*)deque -> tail = *new;
 
-            deque -> head = &((Person*)deque -> data)[((Person*)deque -> head - 
-                (Person*)deque -> data - 1) % deque -> size];
-
             deque -> tail = &((Person*)deque -> data)[((Person*)deque -> tail -
                  (Person*)deque -> data + 1) % deque -> size];
-
+            deque -> head = deque -> data;
             deque -> count++;
             break;
         }case 1:{
@@ -176,10 +170,11 @@ Deque* push_back_list(Deque* deque, Person* new){
 
 Person* pop_front_vector(Deque* deque){
     if(capacitycheck(deque) != 0){
+        Person* result = (Person*) deque -> head;
         deque -> head = &((Person*)deque -> data)[((Person*)deque -> head - 
                 (Person*)deque -> data + 1) % deque -> size];
         deque -> count--;
-        return (Person*) deque -> head;
+        return result;
     }return NULL;
 }
 Person* pop_back_vector(Deque* deque){

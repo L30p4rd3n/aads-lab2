@@ -30,9 +30,9 @@ Deque* get_deque(Deque* deque){
     }
     for(size_t i = 0; i < people -> count; i++){
         if(people -> people[i].priority){
-            push_front(deque, &(people -> people[i]));
+            deque = push_front(deque, &(people -> people[i]));
         }else{
-            push_back(deque, &(people -> people[i]));
+            deque = push_back(deque, &(people -> people[i]));
         }
     }
     return deque;

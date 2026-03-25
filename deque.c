@@ -95,14 +95,12 @@ Deque* push_front_vector(Deque* deque, Person* new){ // data is VectorPerson*
             deque -> head = &((Person*)deque -> data)[((Person*)deque -> head - 
                 (Person*)deque -> data - 1) % deque -> size];
             *(Person*)deque -> head = *new;
-            deque -> tail = &((Person*)deque -> data)[1 % deque -> size];
+            deque -> tail = deque -> data;
             deque -> count++;
             break;
         }case 1:{
-            printf("wtf lol %p,  %p\n", deque -> data, &((Person*)deque -> data)[((Person*)deque -> head - 
-                (Person*)deque -> data - 1) % deque -> size]); 
             deque -> head = &((Person*)deque -> data)[((Person*)deque -> head - 
-                (Person*)deque -> data - 1) % deque -> size];
+                (Person*)deque -> data - 1 + deque -> size) % deque -> size];
             *(Person*)deque -> head = *new;
             deque -> count++; 
             break;    
@@ -110,22 +108,6 @@ Deque* push_front_vector(Deque* deque, Person* new){ // data is VectorPerson*
             break;
         }
     }return deque;
-}
-
-Deque* push_front_list(Deque* deque, Person* new){
-    
-    ListPerson* newNode = malloc(sizeof(ListPerson));
-    newNode -> self = new;
-    newNode -> next = ((ListPerson*)deque -> data) -> next;
-
-    ((ListPerson*)deque -> data) -> next = newNode;
-    deque -> head = newNode;
-    if(deque -> count == 0){
-        ((ListPerson*)deque -> tail) -> next = newNode;
-    }
-    deque -> count++;
-
-    return deque;
 }
 
 Deque* push_back_vector(Deque* deque, Person* new){
@@ -150,21 +132,34 @@ Deque* push_back_vector(Deque* deque, Person* new){
         }
     }return deque;
 }
-
-Deque* push_back_list(Deque* deque, Person* new){
-    
+Deque* push_front_list(Deque* deque, Person* new){
     ListPerson* newNode = malloc(sizeof(ListPerson));
     newNode -> self = new;
-    newNode -> next = ((ListPerson*)deque -> data) -> next;
 
-    ((ListPerson*)deque -> tail) -> next = newNode;
-    deque -> tail = newNode;
     if(deque -> count == 0){
-        ((ListPerson*)deque -> data) -> next = newNode;
-        ((ListPerson*)deque -> head) -> next = newNode;
-    }
-    deque -> count++;
+        (deque -> tail) = newNode;
+        (deque -> data) = newNode;
+        (deque -> head) = newNode;
+    }else{
+        newNode -> next = ((ListPerson*)deque -> data) -> next;
+        deque -> data = newNode;
+        deque -> head = newNode;
+    }deque -> count++;
+    return deque;
+}
+Deque* push_back_list(Deque* deque, Person* new){
+    ListPerson* newNode = malloc(sizeof(ListPerson));
+    newNode -> self = new;
+    newNode -> next = NULL;
 
+    if(deque -> count == 0){
+        (deque -> tail) = newNode;
+        (deque -> data) = newNode;
+        (deque -> head) = newNode;
+    }else{
+        ((ListPerson*)deque -> tail) -> next = newNode;
+        deque -> tail = newNode;
+    }deque -> count++;
     return deque;
 }
 
@@ -180,7 +175,7 @@ Person* pop_front_vector(Deque* deque){
 Person* pop_back_vector(Deque* deque){
     if(capacitycheck(deque) != 0){
         deque -> tail = &((Person*)deque -> data)[((Person*)deque -> tail - 
-                (Person*)deque -> data - 1) % deque -> size];
+                (Person*)deque -> data - 1 + deque -> size) % deque -> size];
         deque -> count--;
         return (Person*) deque -> tail;
     }return NULL;

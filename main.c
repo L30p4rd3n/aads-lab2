@@ -11,13 +11,14 @@
 
 int main(){
     
-    Types type = VECTOR; // TODO - move to argparse
+    Types type = LIST; // TODO - move to argparse
 
     Deque* deque = new_deque(type);
     while(1){
         Deque* temp = get_deque(deque);
         if(temp != NULL){
             deque = temp;
+            all_data(deque);
             simulate_clinic(deque);
         }else{
             break;

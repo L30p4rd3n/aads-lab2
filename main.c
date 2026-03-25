@@ -18,7 +18,6 @@ int main(){
         Deque* temp = get_deque(deque);
         if(temp != NULL){
             deque = temp;
-            all_data(deque);
             simulate_clinic(deque);
         }else{
             break;

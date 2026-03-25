@@ -13,10 +13,10 @@ void all_data(Deque* deque){
             }
         }else{
             ListPerson* curr = ((ListPerson*)deque -> data);
-            while(curr -> next != NULL){
+            while(curr != NULL){
                 if(curr -> self != NULL){
                     printf(" %s ", curr -> self -> id);
-                }
+                }curr = curr -> next;
             }
         }
     }printf("\n");

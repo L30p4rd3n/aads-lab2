@@ -34,6 +34,6 @@ Deque* get_deque(Deque* deque){
         }else{
             deque = push_back(deque, &(people -> people[i]));
         }
-    }
+    }free(people);
     return deque;
 }

@@ -33,7 +33,11 @@ void simulate_clinic(Deque* deque){
             wrote = 0;
         }else if(is_using && time == in_use -> ts + tt){ // just freed
             is_using = 0;
-            in_use = pop_front(deque);
+            if(in_use != NULL){
+                free(in_use);
+            }
+            
+            Person* in_use = pop_front(deque);
             tt = time;
             if(!wrote){
                 printf("\n%zu\n%s  ", time, in_use -> id);

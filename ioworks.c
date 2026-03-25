@@ -53,8 +53,8 @@ Person* parse_input(char* ctx, char* delt){
         piece = strtok(NULL, delt);
     }
 
-    //free(working_str_set);
-    //free(piece);
+    free(working_str_set1);
+    free(piece);
     return person;
 }
 
@@ -113,6 +113,7 @@ VectorPerson* parse_line(char* delt){ // [de]que pro
     int err = input(&line, STRING);
     if(err == -1){
         free(people -> people);
+        free(people);
         return 0;
     }
 
@@ -127,5 +128,6 @@ VectorPerson* parse_line(char* delt){ // [de]que pro
         people -> count++;
         word = mestrtok(nil, delt);
     }
+    free(working_str_set);
     return people;
 }

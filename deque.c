@@ -15,16 +15,34 @@ Deque* new_deque(Types type){
             deque -> data = calloc(0, sizeof(Person));
             deque -> head = NULL;
             deque -> tail = NULL;
+            break;
         }case LIST:{
-            deque -> data = calloc(1, sizeof(ListPerson));
-            ((ListPerson*) deque -> data) -> self = NULL;
-            ((ListPerson*) deque -> data) -> next = NULL;
+            deque -> data = NULL;
             deque -> head = NULL;
             deque -> tail = NULL;
+            break;
         }
     }return deque;
 }
 
+void clear(Deque* deque){
+    if(deque -> count > 0){
+        if(deque -> type == VECTOR){
+            for(size_t i = 0; i < deque -> count; i++){
+                Person* curr_item = &((Person*)deque -> data)[((Person*)deque -> head -
+                    (Person*)deque -> data + i + deque -> size) % deque -> size];
+                free(curr_item);
+            }
+        }else{
+            ListPerson* curr = ((ListPerson*)deque -> data);
+            while(curr != NULL){
+                if(curr -> self != NULL){
+                    free(curr -> self);
+                }curr = curr -> next;
+            }
+        }
+    }printf("\n");
+}
 
 Deque* push_front(Deque* deque, Person* person){
     switch (deque -> type){

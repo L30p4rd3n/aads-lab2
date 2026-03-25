@@ -19,10 +19,10 @@ int main(){
         if(temp != NULL){
             deque = temp;
             simulate_clinic(deque);
+            clear(deque);
         }else{
             break;
         }
-        //probably free some leftovers
     }
     free(deque -> data);
     free(deque);

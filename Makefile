@@ -2,11 +2,11 @@ CC = gcc
 CFLAGS = -Wall
 LDFLAGS = 
 
-TARGET = lab2
+TARGET = bin/lab2
 
-SOURCES = $(wildcard *.c)
+SOURCES = $(wildcard src/*.c)
 OBJECTS = $(SOURCES:.c=.o)
-HEADERS = $(wildcard *.h)
+HEADERS = $(wildcard include/*.h)
 
 all: $(TARGET)
 

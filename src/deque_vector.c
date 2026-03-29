@@ -1,8 +1,8 @@
-#include "structs.h"
-#include "deque.h"
+#include "../include/structs.h"
+#include "../include/deque.h"
 #include <stdlib.h>
 
-static int capacitycheck(Deque* deque){
+int capacitycheck(Deque* deque){
     if(deque -> head == deque -> tail){
         if(deque -> count == deque -> size){
             return 2;

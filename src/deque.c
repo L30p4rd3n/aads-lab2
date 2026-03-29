@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "structs.h"
-#include "deque.h"
-#include "deque_list.h"
-#include "deque_vector.h"
+#include "../include/structs.h"
+#include "../include/deque.h"
+#include "../include/deque_list.h"
+#include "../include/deque_vector.h"
 
 Deque* new_deque(Types type){
     Deque* deque = malloc(sizeof(Deque));
@@ -24,26 +24,6 @@ Deque* new_deque(Types type){
         }
     }return deque;
 }
-
-void clear(Deque* deque){
-    if(deque -> count > 0){
-        if(deque -> type == VECTOR){
-            for(size_t i = 0; i < deque -> count; i++){
-                Person* curr_item = &((Person*)deque -> data)[((Person*)deque -> head -
-                    (Person*)deque -> data + i + deque -> size) % deque -> size];
-                free(curr_item);
-            }
-        }else{
-            ListPerson* curr = ((ListPerson*)deque -> data);
-            while(curr != NULL){
-                if(curr -> self != NULL){
-                    free(curr -> self);
-                }curr = curr -> next;
-            }
-        }
-    }printf("\n");
-}
-
 Deque* push_front(Deque* deque, Person* person){
     switch (deque -> type){
         case VECTOR:{

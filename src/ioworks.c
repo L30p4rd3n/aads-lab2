@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "structs.h"
-#include "io.h"
+#include "../include/structs.h"
+#include "../include/io.h"
+#include "../include/interface.h"
 
 #define nil NULL
 
 char* mestrdup(char* str){ // free later
-    char* ans = calloc(strlen(str) + 1, 1);
+    char* ans = malloc(strlen(str) + 1);
     if(ans == NULL){
         return NULL;
     }
@@ -31,30 +32,44 @@ Person* parse_input(char* ctx, char* delt){
         person -> priority = 0;
         working_str_set1 = mestrdup(ctx);
     }
-    char* piece = strtok(working_str_set1, delt);
-    int datafield = 0; // 0 str, 1-2 long
 
-    while(piece != nil){
-        long err = 0;
-        char* end;
-        if(datafield == 0){
-            person -> id = mestrdup(piece);
-        }else if(datafield == 1){
-            person -> ta = strtol(piece, &end, 10);
-            if(end == piece){
-                person -> ta = -1; // МФЦ be like:
+    int datafield = 0;
+    long* idx = malloc(3 * sizeof(long));
+    for(long i = 0; i < strlen(working_str_set1); i++){
+        if(working_str_set1[i] == '/'){
+            idx[datafield] = i;
+            datafield++;
+            if(datafield >= 3){
+                break;
             }
-        }else{
-            person -> ts = strtol(piece, &end, 10);
-            if(end == piece){
-                person -> ts = 0; // пришел и был отправлен обратно...
-            }
-        }datafield++;
-        piece = strtok(NULL, delt);
+        }
     }
 
+    char* id = malloc(idx[0] + 1);
+    strncpy(id, working_str_set1, idx[0]);
+    id[idx[0]] = '\0';
+    person -> id = id;
+
+    char* endptr;
+    person -> ta = strtol(working_str_set1 + idx[0] + 1, &endptr, 10);
+    if(*endptr != '/') {
+        free(id);
+        free(working_str_set1);
+        free(person);
+        free(idx);
+        return NULL;
+    }
+    
+    person -> ts = strtol(endptr + 1, &endptr, 10);
+    if(*endptr != '\0') {
+        free(id);
+        free(working_str_set1);
+        free(person);
+        free(idx);
+        return NULL;
+    }
+    free(idx);
     free(working_str_set1);
-    free(piece);
     return person;
 }
 
@@ -104,6 +119,7 @@ char* mestrtok(char* str, const char* del){ // slams it till it gets to delim or
 
 
 VectorPerson* parse_line(char* delt){ // [de]que pro
+    greet();
     VectorPerson* people = malloc(sizeof(VectorPerson));
     people -> count = 0;
     people -> size = 0;
@@ -114,7 +130,7 @@ VectorPerson* parse_line(char* delt){ // [de]que pro
     if(err == -1){
         free(people -> people);
         free(people);
-        return 0;
+        return NULL;
     }
 
     char* working_str_set = mestrdup(line);
@@ -125,9 +141,11 @@ VectorPerson* parse_line(char* delt){ // [de]que pro
             people->people = realloc(people->people, (people -> size + 1) * sizeof(Person));
             people -> size++;
         }people -> people[people -> count] = *person;
+        free(person);
         people -> count++;
         word = mestrtok(nil, delt);
     }
     free(working_str_set);
+    free(line);
     return people;
 }

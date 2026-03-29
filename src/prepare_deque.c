@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "structs.h"
-#include "deque.h"
-#include "ioworks.h"
+#include "../include/structs.h"
+#include "../include/deque.h"
+#include "../include/ioworks.h"
 
 #define DELT " \t"
 
@@ -18,6 +18,7 @@ VectorPerson* sort_people(VectorPerson* people){
 Deque* get_deque(Deque* deque){
 
     VectorPerson* people = parse_line(DELT);
+    
     if(people == NULL){
         return NULL;
     }
@@ -29,11 +30,13 @@ Deque* get_deque(Deque* deque){
         deque -> tail = deque -> data;
     }
     for(size_t i = 0; i < people -> count; i++){
-        if(people -> people[i].priority){
-            deque = push_front(deque, &(people -> people[i]));
+        if(people->people[i].priority){
+            deque = push_front(deque, &(people->people[i]));
         }else{
-            deque = push_back(deque, &(people -> people[i]));
+            deque = push_back(deque, &people->people[i]);
         }
-    }free(people);
+    }
+    free(people -> people);
+    free(people);
     return deque;
 }

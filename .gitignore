@@ -1,2 +1,7 @@
+# vscode and git files
 .git
+.vscode/
+
+#binaries
 lab2
+bin/

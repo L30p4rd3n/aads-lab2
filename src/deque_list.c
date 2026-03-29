@@ -1,15 +1,6 @@
-#include "structs.h"
-#include "deque.h"
+#include "../include/structs.h"
+#include "../include/deque.h"
 #include <stdlib.h>
-
-static int capacitycheck(Deque* deque){
-    if(deque -> head == deque -> tail){
-        if(deque -> count == deque -> size){
-            return 2;
-        }return 0;
-    }return 1;
-}
-
 
 Deque* push_front_list(Deque* deque, Person* new){
     ListPerson* newNode = malloc(sizeof(ListPerson));
@@ -28,7 +19,7 @@ Deque* push_front_list(Deque* deque, Person* new){
     return deque;
 }
 Deque* push_back_list(Deque* deque, Person* new){
-    ListPerson* newNode = malloc(sizeof(ListPerson));
+    ListPerson* newNode = calloc(1, sizeof(ListPerson));
     newNode -> self = new;
     newNode -> next = NULL;
 
@@ -47,6 +38,7 @@ Deque* push_back_list(Deque* deque, Person* new){
 Person* pop_front_list(Deque* deque){
     if(deque -> count > 0){
         ListPerson* res = ((ListPerson*)deque -> head);
+        Person* result = res -> self;
         if(deque -> count == 1){
             deque -> head = NULL;
             deque -> tail = NULL;
@@ -56,13 +48,14 @@ Person* pop_front_list(Deque* deque){
             deque -> data = deque -> head;
             res -> next = NULL;
         }deque -> count--;
-        
-        return res -> self;
+        free(res);
+        return result;
     }return NULL;
 }
 Person* pop_back_list(Deque* deque){
     if(deque -> count > 0){
         ListPerson* res = ((ListPerson*)deque -> tail);
+        Person* result = res -> self;
     if(deque -> count == 1){
             deque -> head = NULL;
             deque -> tail = NULL;
@@ -73,7 +66,7 @@ Person* pop_back_list(Deque* deque){
                 prev = prev -> next;
             }free(prev -> next);
         }deque -> count--;
-        
-        return res -> self;    
+        free(res);
+        return result;    
     }return NULL;
 }

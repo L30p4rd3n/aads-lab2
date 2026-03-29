@@ -14,7 +14,6 @@ typedef struct Deque{
 
 //deque creation
 Deque* new_deque(Types type);
-void clear(Deque* deque);
 
 //deque I/O
 Deque* push_front(Deque* deque, Person* person); // just return the copy

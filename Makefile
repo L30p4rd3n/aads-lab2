@@ -1,17 +1,21 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -g
+CFLAGS = -Wall
+LDFLAGS = 
 
-SOURCES = $(wildcard *.c)
+TARGET = bin/lab2
 
+SOURCES = $(wildcard src/*.c)
 OBJECTS = $(SOURCES:.c=.o)
+HEADERS = $(wildcard include/*.h)
 
-EXECUTABLE = lab2
+all: $(TARGET)
 
-all: $(EXECUTABLE)
-
-$(EXECUTABLE): $(OBJECTS)
-	$(CC) $(OBJECTS) -o $@
-
-%.o: %.c
+$(TARGET): $(OBJECTS)
+	$(CC) $(OBJECTS) -o $@ $(LDFLAGS)
+%.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+clean:
+	rm -f $(OBJECTS)
+
+build: all clean

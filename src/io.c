@@ -3,15 +3,15 @@
 #include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "io.h"
+#include "../include/io.h"
 
 #define FIXSIZE 100
 
 // readline taken without changes from c_lab4: @L30p4rd3n/c_lab4
 // TODO - add enlarge() function to re-use in the mereadline
 char* mereadline(const char* prompt){ 
-    char* string = calloc(FIXSIZE, 1);
-    char* temp_string = calloc(FIXSIZE, 1);
+    char* string = malloc(FIXSIZE);
+    char* temp_string = malloc(FIXSIZE);
     if(string == NULL || temp_string == NULL){
         return NULL;
     }
@@ -52,7 +52,7 @@ char* mereadline(const char* prompt){
             }
         }
         if (strlen(temp_string) < 99){
-                break;
+            break;
         }
     }
 
@@ -134,6 +134,5 @@ int input(void* to, inTypes type){
                 return -1;
             }
         }
-
     }
 }

@@ -2,7 +2,7 @@
 #include "../include/deque.h"
 #include <stdlib.h>
 
-Deque* push_front_list(Deque* deque, Person* new){
+Err push_front_list(Deque* deque, Person* new){
     ListPerson* newNode = malloc(sizeof(ListPerson));
     newNode -> self = new;
 
@@ -16,9 +16,9 @@ Deque* push_front_list(Deque* deque, Person* new){
         deque -> data = newNode;
         deque -> head = newNode;
     }deque -> count++;
-    return deque;
+    return SUCCESS;
 }
-Deque* push_back_list(Deque* deque, Person* new){
+Err push_back_list(Deque* deque, Person* new){
     ListPerson* newNode = calloc(1, sizeof(ListPerson));
     newNode -> self = new;
     newNode -> next = NULL;
@@ -31,7 +31,7 @@ Deque* push_back_list(Deque* deque, Person* new){
         ((ListPerson*)deque -> tail) -> next = newNode;
         deque -> tail = newNode;
     }deque -> count++;
-    return deque;
+    return SUCCESS;
 }
 
 

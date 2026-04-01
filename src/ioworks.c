@@ -44,7 +44,12 @@ Person* parse_input(char* ctx, char* delt){
             }
         }
     }
-
+    if(datafield < 2){
+        free(working_str_set1);
+        free(person);
+        free(idx);
+        return NULL;
+    }
     char* id = malloc(idx[0] + 1);
     strncpy(id, working_str_set1, idx[0]);
     id[idx[0]] = '\0';
@@ -136,7 +141,14 @@ VectorPerson* parse_line(char* delt){ // [de]que pro
     char* working_str_set = mestrdup(line);
     char* word = mestrtok(working_str_set, delt);
     while(word != nil){
-        Person* person = parse_input(word, "/"); // add __compar_fn_t for qsort
+        Person* person = parse_input(word, "/"); 
+        if(person == NULL){
+            free(people -> people);
+            free(people);
+            free(working_str_set);
+            free(line); 
+            return NULL;
+        }
         if(people -> count + 1 > people -> size){
             people->people = realloc(people->people, (people -> size + 1) * sizeof(Person));
             people -> size++;

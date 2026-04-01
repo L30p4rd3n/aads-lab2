@@ -17,6 +17,11 @@ typedef enum Types{
     LIST
 }Types;
 
+typedef enum Err{
+    SUCCESS,
+    ERR
+}Err;
+
 typedef struct ListPerson{
     Person* self;
     struct ListPerson* next;

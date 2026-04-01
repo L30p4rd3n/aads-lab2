@@ -11,7 +11,7 @@ int capacitycheck(Deque* deque){
 }
 
 
-Deque* push_front_vector(Deque* deque, Person* new){ // data is VectorPerson*
+Err push_front_vector(Deque* deque, Person* new){ // data is VectorPerson*
     switch(capacitycheck(deque)){
         case 0:{
             deque -> head = &((Person*)deque -> data)[((Person*)deque -> head - 
@@ -27,12 +27,12 @@ Deque* push_front_vector(Deque* deque, Person* new){ // data is VectorPerson*
             deque -> count++; 
             break;    
         }case 2:{
-            break;
+            return ERR;
         }
-    }return deque;
+    }return SUCCESS;
 }
 
-Deque* push_back_vector(Deque* deque, Person* new){
+Err push_back_vector(Deque* deque, Person* new){
     switch(capacitycheck(deque)){
         case 0:{
             *(Person*)deque -> tail = *new;
@@ -50,14 +50,15 @@ Deque* push_back_vector(Deque* deque, Person* new){
             deque -> count++; 
             break;    
         }case 2:{
-            break;
+            return ERR;
         }
-    }return deque;
+    }return SUCCESS;
 }
 
 Person* pop_front_vector(Deque* deque){
     if(capacitycheck(deque) != 0){
-        Person* result = (Person*) deque -> head;
+        Person* result = malloc(sizeof(Person));
+        *result = *(Person*) deque -> head;
         deque -> head = &((Person*)deque -> data)[((Person*)deque -> head - 
                 (Person*)deque -> data + 1) % deque -> size];
         deque -> count--;
@@ -69,6 +70,8 @@ Person* pop_back_vector(Deque* deque){
         deque -> tail = &((Person*)deque -> data)[((Person*)deque -> tail - 
                 (Person*)deque -> data - 1 + deque -> size) % deque -> size];
         deque -> count--;
-        return (Person*) deque -> tail;
+        Person* result = malloc(sizeof(Person));
+        *result = *(Person*) deque -> tail;
+        return result;
     }return NULL;
 }

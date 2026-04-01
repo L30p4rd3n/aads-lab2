@@ -22,3 +22,9 @@ void all_data(Deque* deque){
 void greet(){
     printf("Please enter the entries.\nEntries format: a/1/20 b/1/15 c/2/10 *d/5/8 *e/6/5 f/6/9\n");
 }
+
+void error_check(Err err){
+    if(err){
+        printf("Error code %d. It indicates that the deque vector is full\n", err);
+    }
+}

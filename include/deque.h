@@ -13,11 +13,11 @@ typedef struct Deque{
 }Deque;
 
 //deque creation
-Deque* new_deque(Types type);
+Deque* new_deque(Types type, long size);
 
 //deque I/O
-Deque* push_front(Deque* deque, Person* person); // just return the copy
-Deque* push_back(Deque* deque, Person* person); // just return the copy
+Err push_front(Deque* deque, Person* person); // just return the copy
+Err push_back(Deque* deque, Person* person); // just return the copy
 Person* pop_front(Deque* deque); // modify the structure
 Person* pop_back(Deque* deque); // modify the structure
 

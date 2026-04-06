@@ -6,20 +6,29 @@
 #include "../include/ioworks.h"
 #include "../include/io.h"
 #include "../include/task.h"
+#include "../include/interface.h"
 
+#define DEQUE_SIZE (long)3
 #define DELT " \t"
 
 int main(){
     
     Types type = VECTOR; // TODO - move to argparse
+    Deque* deque = new_deque(type, DEQUE_SIZE);
 
-    Deque* deque = new_deque(type);
     while(1){
-        Deque* temp = get_deque(deque);
-        if(temp != NULL){
-            deque = temp;
-            simulate_clinic(deque);
+        VectorPerson* temp = get_deque(deque);
+        if(deque -> count != 0){
+            simulate_clinic(deque, temp);
+            if(temp != NULL){
+                free(temp -> people);
+                free(temp);
+            }
         }else{
+            if(temp != NULL){
+                free(temp -> people);
+                free(temp);
+            }
             break;
         }
     }

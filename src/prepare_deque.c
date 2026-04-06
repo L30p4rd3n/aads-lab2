@@ -3,6 +3,7 @@
 #include "../include/structs.h"
 #include "../include/deque.h"
 #include "../include/ioworks.h"
+#include "../include/interface.h"
 
 #define DELT " \t"
 
@@ -11,32 +12,55 @@ int peopleComparator(Person* person_1, Person* person_2){
 }
 
 VectorPerson* sort_people(VectorPerson* people){
-    qsort(people -> people, people -> count, sizeof(Person), peopleComparator);
+    qsort(people -> people, people -> count, sizeof(Person), (__compar_fn_t)peopleComparator);
     return people;
 }
 
-Deque* get_deque(Deque* deque){
-
+VectorPerson* get_deque(Deque* deque){
     VectorPerson* people = parse_line(DELT);
-    
+    VectorPerson* unused = malloc(sizeof(VectorPerson));
+    unused -> count = 0;
+    unused -> size = 0;
+    unused -> people = malloc(0);
     if(people == NULL){
+        free(unused -> people);
+        free(unused);
         return NULL;
     }
     people = sort_people(people);
-    deque -> size = people -> size;
     if(deque -> type == VECTOR){
-        deque -> data = realloc(deque -> data, deque -> size * sizeof(Person));
         deque -> head = deque -> data;
         deque -> tail = deque -> data;
     }
     for(size_t i = 0; i < people -> count; i++){
+        Err err = 0;
+
+        Person* to_add = malloc(sizeof(Person));
+        to_add -> priority = people->people[i].priority;
+        to_add -> id = mestrdup(people -> people[i].id);
+        to_add -> ta = people -> people[i].ta;
+        to_add -> ts = people -> people[i].ts;
+
         if(people->people[i].priority){
-            deque = push_front(deque, &(people->people[i]));
+            err = push_front(deque, to_add);
         }else{
-            deque = push_back(deque, &people->people[i]);
+            err = push_back(deque, to_add);
         }
+        if(err){
+            unused -> size++;
+            unused -> count++;
+            unused -> people = realloc(unused -> people, unused -> count * sizeof(Person));
+            unused -> people[unused -> count - 1] = *to_add;
+        }
+        if(deque -> type == VECTOR){
+            free(to_add);
+        }
+        error_check(err);
     }
-    free(people -> people);
+    for(long i = 0; i < people -> count; i++){
+        free((void*)people -> people[i].id);
+    }free(people -> people);
     free(people);
-    return deque;
+    
+    return unused;
 }

@@ -5,14 +5,14 @@
 #include "../include/deque_list.h"
 #include "../include/deque_vector.h"
 
-Deque* new_deque(Types type){
+Deque* new_deque(Types type, long size){
     Deque* deque = malloc(sizeof(Deque));
     deque -> count = 0;
-    deque -> size = 0;
+    deque -> size = size;
     deque -> type = type;
     switch (type){
         case VECTOR:{
-            deque -> data = calloc(0, sizeof(Person));
+            deque -> data = calloc(size, sizeof(Person));
             deque -> head = NULL;
             deque -> tail = NULL;
             break;
@@ -24,28 +24,30 @@ Deque* new_deque(Types type){
         }
     }return deque;
 }
-Deque* push_front(Deque* deque, Person* person){
+Err push_front(Deque* deque, Person* person){
+    Err res;
     switch (deque -> type){
         case VECTOR:{
-            deque = push_front_vector(deque, person);
+            res = push_front_vector(deque, person);
             break;
         }case LIST:{
-            deque = push_front_list(deque, person);
+            res = push_front_list(deque, person);
             break;
         }
-    }return deque;
+    }return res;
 }
 
-Deque* push_back(Deque* deque, Person* person){
+Err push_back(Deque* deque, Person* person){
+    Err res;
     switch (deque -> type){
         case VECTOR:{
-            deque = push_back_vector(deque, person);
+            res = push_back_vector(deque, person);
             break;
         }case LIST:{
-            deque = push_back_list(deque, person);
+            res = push_back_list(deque, person);
             break;
         }
-    }return deque;
+    }return res;
 }
 
 Person* pop_front(Deque* deque){
